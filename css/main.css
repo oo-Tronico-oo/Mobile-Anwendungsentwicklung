@@ -1,0 +1,231 @@
+/***** override browser default******************************/
+
+*{
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+    /*border: black 1px dotted;*/
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+/***** global ***********************************************/
+
+html, body{
+    background-color: white;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    font-family: "Arial", sans-serif;
+}
+
+.align-left{
+    float: left;
+}
+
+.align_right{
+    float: right;
+}
+
+.icon{
+    height: 20px;
+    width: 20px;
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    filter: invert(60%);
+    -webkit-filter: invert(60%);
+    padding: 10px 10px 0px 10px;
+    background-origin: content-box;
+}
+
+/***** header ***********************************************/
+
+header{
+    background-color: rgb(253, 253, 254);
+    height: 40px;
+    border-bottom: solid #acacac 4px;
+    /*box-shadow: 0px 4px 5px #c7c7c7;*/
+}
+
+header h1{
+    padding-left: 10px;
+    line-height: 40px;
+    font-size: 18pt;
+    font-weight: normal;
+}
+
+header *{
+    display: inline-block;
+}
+
+.menu{
+    background-image: url("img/glyphicons/png/glyphicons-517-menu-hamburger.png");
+    width: 23px;
+    background-size: 23px 20px;
+}
+
+.add{
+    background-image: url("img/glyphicons/png/glyphicons-433-plus.png");
+}
+
+.view{
+    background-image: url("img/glyphicons/png/glyphicons-157-show-thumbnails.png");
+}
+
+.tiles .view{
+    background-image: url("img/glyphicons/png/glyphicons-115-list.png");
+}
+
+/***** main ************************************************/
+
+main{
+    background-color: rgb(253, 253, 254);
+    /*100% - (headerHeight + footerHeight + topBorderFooter + bottomBorderHeader)*/
+    height: calc(100% - (40px + 40px + 3px + 4px));
+    /*overflow: hidden;*/
+    overflow-y: auto;
+}
+
+/*mouseover and the scrollbar show*/
+/*main:hover li{
+    padding-right: 3px;
+}
+main:hover{
+    overflow-y: scroll;
+}*/
+
+ul{
+    list-style: none;
+    height: 100%;
+}
+
+li{
+    height: 87px;
+    border-bottom: rgb(211, 211, 211) solid 2px;
+    padding: 10px 10px 10px 10px;
+}
+
+li:first-of-type{
+    border-top: 20px solid rgb(210, 210, 210);
+}
+
+.preview{
+    height: 75px;
+    width: 75px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-right: 10px;
+}
+
+li p{
+    font-size: 10pt;
+    color: #c1c1c1;
+}
+
+li h2{
+    padding: 10px 0px 7px 0px;
+    font-size: 13pt;
+    font-weight: normal;
+    max-width: calc(100% - 150px);
+}
+
+li h2, li p{
+    white-space: pre;
+    overflow-x: hidden;
+}
+
+.liElemAutor{
+    max-width: calc(100% - 180px);
+}
+
+.liElemDate{
+    max-width: 70px;
+}
+
+.liElemArrow{
+    height: 13px;
+    width: 13px;
+    background-size: 13px 13px;
+    padding: 1px 5px 0px 0px;
+    background-image: url("img/glyphicons/png/glyphicons-174-play.png");
+}
+
+.liElemCount{
+    max-width: calc(100% - 250px);
+}
+
+.liElemMenu{
+    height: 22px;
+    width: 7px;
+    background-size: 7px 22px;
+    padding: 0px;
+    background-image: url("img/glyphicons/png/glyphicons-518-option-vertical.png");
+}
+
+.tiles ul{
+    border-top: 20px solid rgb(210, 210, 210);
+    height: calc(100% - 20px);
+}
+
+.tiles ul li{
+    font-size: 0pt;
+    display: inline-block;
+    border: none;
+    padding: 0px;
+    margin: 10px 0px 0px 10px;
+
+    position: relative;
+    width: calc((100% - 10px * 4) / 4 - 7px);
+    height: auto;
+    line-height: 100%;
+}
+
+.tiles ul li *{
+    display: none;
+}
+
+.tiles ul li:before{
+    content: "";
+    display: block;
+    padding-top: calc(100% - (22px + 10px));
+}
+
+.tiles ul li .preview{
+    display: inline-block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: auto;
+    height: auto;
+    margin-right: 0px;
+}
+
+.tiles ul li .liElemMenu{
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+/***** footer **********************************************/
+
+footer{
+    background-color: rgb(253, 253, 254);
+    height: 40px;
+    border-top: solid rgb(252, 118, 1) 3px;
+}
+
+.data{
+    background-image: url("img/glyphicons/png/glyphicons-388-log-out.png");
+    width: 23px;
+    background-size: 23px 20px;
+    padding-top: 10px;
+}
+
+.refresh{
+    background-image: url("img/glyphicons/png/glyphicons-82-refresh.png");
+    padding-right: 5px;
+}
