@@ -85,6 +85,9 @@ main{
     height: calc(100% - (40px + 40px + 3px + 4px));
     /*overflow: hidden;*/
     overflow-y: auto;
+
+    opacity: 1.0;
+    transition: opacity 1s;
 }
 
 /*mouseover and the scrollbar show*/
@@ -164,8 +167,9 @@ li h2, li p{
 }
 
 .tiles ul{
-    border-top: 20px solid rgb(210, 210, 210);
-    height: calc(100% - 20px);
+    /*border-top: 20px solid rgb(210, 210, 210);*/
+    height: calc(100%);
+    padding-right: 10px;
 }
 
 .tiles ul li{
@@ -174,9 +178,10 @@ li h2, li p{
     border: none;
     padding: 0px;
     margin: 10px 0px 0px 10px;
+    float: left;
 
     position: relative;
-    width: calc((100% - 10px * 4) / 4 - 7px);
+    width: calc((100% - 10px * 4) / 4);
     height: auto;
     line-height: 100%;
 }
@@ -209,6 +214,11 @@ li h2, li p{
     display: inline-block;
     margin-right: 10px;
     margin-bottom: 10px;
+}
+
+.faded{
+    opacity: 0.0;
+    transition: opacity 2s;
 }
 /***** footer **********************************************/
 
