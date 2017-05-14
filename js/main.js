@@ -4,8 +4,9 @@
 window.onload = (function () {
     var viewButton = document.getElementsByClassName("view")[0];
     var ulElement = document.getElementsByTagName("ul")[0];
+    var addButton = document.getElementsByClassName("add")[0];
 
-    // ****** change the view with faded in/out ************
+    /* change the view with faded in/out */
     viewButton.onclick = function() {
         var body = document.getElementsByTagName("body")[0];
         var main = document.getElementsByTagName("main")[0];
@@ -43,6 +44,26 @@ window.onload = (function () {
         //     alert("clicked element is not a list or list child");
         // }
     };
+
+    /* add a new list element */
+    addButton.onclick = (event) => {
+        addItemToList({Title: "M6",
+                       Autor: "lorempixel.com",
+                        Date: "02.05.2017",
+                         src: "./img/lorempixel_200x100.jpg"});
+    };
+
+    function addItemToList(item){
+        var newListElement = ulElement.firstElementChild.cloneNode(true);
+
+        newListElement.getElementsByClassName("preview")[0].setAttribute("style", "background-image: url('" + item.src + "')");
+        newListElement.getElementsByTagName("h2")[0].textContent = item.Title;
+        newListElement.getElementsByClassName("liElemAutor")[0].textContent = item.Autor;
+        newListElement.getElementsByClassName("liElemDate")[0].textContent = item.Date;
+        newListElement.getElementsByClassName("liElemCount")[0].textContent = 0;
+
+        ulElement.appendChild(newListElement);
+    }
 
     function getLiElement(elem){
         if(elem.tagName === "UL")return null;
