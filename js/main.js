@@ -70,10 +70,16 @@ function listElemHandle(event) {
  */
 function addButtonHandle(event) {
     var ulElement = document.getElementsByTagName("ul")[0];
-    var jasonItem = { Title: "M6",
+    var randomInt = parseInt(Math.random() * 1000, 0);
+    var randomDate = (randomInt % 30 + 1) + "." + (randomInt % 12 + 1) +".2017";
+    var tempString = "lorempixel_";
+    var filelist = [tempString + "100x100.jpg", tempString + "100x200.jpg", tempString + "200x100.jpg",
+                    tempString + "250x150.jpg", tempString + "300x300.jpg"];
+
+    var jasonItem = { Title: "M" + (ulElement.getElementsByTagName("li").length + 1),
                       Autor: "lorempixel.com",
-                      Date: "02.05.2017",
-                      src: "./img/lorempixel_200x100.jpg" }
+                      Date: randomDate,
+                      src: "./img/" + filelist[randomInt % 5] }
 
     ulElement.appendChild(getNewListItem(jasonItem));
 }
