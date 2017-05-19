@@ -14,6 +14,9 @@ Dozent: Jörn Kreutel
 
         <script language="javascript"
                 type="text/javascript"
+                src="js/lib/xhr.js"></script>
+        <script language="javascript"
+                type="text/javascript"
                 src="js/main.js"></script>
         <link rel="stylesheet"
               href="css/main.css">
@@ -35,55 +38,11 @@ Dozent: Jörn Kreutel
             <ul class="tiledView">
                 <li>
                     <div class="preview align-left"
-                         style="background-image: url('img/lorempixel_100x100.jpg')"></div>
-                    <p class="liElemAutor align-left">lorempixel.com gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg</p>
-                    <p class="liElemDate align_right">26.4.2017 66666666666666666666666</p>
-                    <br>
-                    <h2>M1 ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg</h2>
-                    <div class="liElemArrow align-left icon"></div>
-                    <p class="liElemCount align-left">0 kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</p>
-                    <div class="liElemMenu align_right icon"></div>
-                </li>
-                <li>
-                    <div class="preview align-left"
-                         style="background-image: url('img/lorempixel_100x200.jpg')"></div>
-                    <p class="liElemAutor align-left">lorempixel.com</p>
-                    <p class="liElemDate align_right">25.4.2017</p>
-                    <br>
-                    <h2>M2 hhthtttttttttttttttttttttttttttttttttttttttttttttt</h2>
-                    <div class="liElemArrow align-left icon"></div>
-                    <p class="liElemCount align-left">0</p>
-                    <div class="liElemMenu align_right icon"></div>
-                </li>
-                <li>
-                    <div class="preview align-left"
-                         style="background-image: url('img/lorempixel_200x100.jpg')"></div>
-                    <p class="liElemAutor align-left">lorempixel.com</p>
-                    <p class="liElemDate align_right">20.4.2017</p>
-                    <br>
-                    <h2>M3</h2>
-                    <div class="liElemArrow align-left icon"></div>
-                    <p class="liElemCount align-left">0</p>
-                    <div class="liElemMenu align_right icon"></div>
-                </li>
-                <li>
-                    <div class="preview align-left"
-                         style="background-image: url('img/lorempixel_250x150.jpg')"></div>
-                    <p class="liElemAutor align-left">lorempixel.com</p>
-                    <p class="liElemDate align_right">20.4.2017</p>
-                    <br>
-                    <h2>M4</h2>
-                    <div class="liElemArrow align-left icon"></div>
-                    <p class="liElemCount align-left">0</p>
-                    <div class="liElemMenu align_right icon"></div>
-                </li>
-                <li>
-                    <div class="preview align-left"
                          style="background-image: url('img/lorempixel_300x300.jpg')"></div>
                     <p class="liElemAutor align-left">lorempixel.com</p>
                     <p class="liElemDate align_right">30.3.2017</p>
                     <br>
-                    <h2>M5</h2>
+                    <h2>M1</h2>
                     <div class="liElemArrow align-left icon"></div>
                     <p class="liElemCount align-left">0</p>
                     <div class="liElemMenu align_right icon"></div>
@@ -95,7 +54,8 @@ Dozent: Jörn Kreutel
 
         <footer>
             <div class="data align-left icon"></div>
-            <div class="refresh align_right icon"></div>
+            <div id="refreshButton"
+                 class="refresh align_right icon"></div>
         </footer>
 
     </body>

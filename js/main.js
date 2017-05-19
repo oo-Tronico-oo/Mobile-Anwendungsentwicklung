@@ -1,20 +1,45 @@
 /**
  * Created by Tronico on 27.04.2017.
  */
+// global variable
+var ulElement;
+var liElemTemplate;
+
 // load js-file, if page ready
 window.onload = () => {
+    initGlobalVar();
+    initView();
     initEventHandler();
 };
 
 //############################## function ##############################################
+/**
+ * initialize global variable
+ */
+function initGlobalVar() {
+    ulElement = document.getElementsByTagName("ul")[0];
+    liElemTemplate = ulElement.firstElementChild;
+}
 
 /**
- * initilize Eventhandler
+ * initialize view
+ */
+function initView() {
+    //remove template item from DOM 
+    liElemTemplate.parentNode.removeChild(liElemTemplate);
+    ulElement.setAttribute("style", "display: block");
+    
+    fillView();
+}
+
+/**
+ * initialize Eventhandler
  */
 function initEventHandler() {
     document.getElementById("viewButton").onclick = viewButtonHandle;
-    document.getElementsByTagName("ul")[0].onclick = listElemHandle;
     document.getElementById("addButton").onclick = addButtonHandle;
+    document.getElementById("refreshButton").onclick = refreshButtonHandle;
+    ulElement.onclick = listElemHandle;
 }
 
 //############################### eventHandler ##########################################
@@ -55,7 +80,12 @@ function listElemHandle(event) {
         var imageUrl = liElement.getElementsByClassName("liElemAutor")[0].textContent;
 
         if (optionMenuIsClicked) {
-            alert("Title: " + liElementTitle + "\nURL: " + imageUrl);
+            //alert("Title: " + liElementTitle + "\nURL: " + imageUrl);
+            var resConfirm = confirm("Delete the following image\n\nTitle: " + liElementTitle + "\nURL: " + imageUrl);
+            if(resConfirm){
+                ulElement.removeChild(liElement);
+            };
+            
         }
         else {
             alert("Title: " + liElementTitle);
@@ -69,19 +99,28 @@ function listElemHandle(event) {
  * @param event is click event
  */
 function addButtonHandle(event) {
-    var ulElement = document.getElementsByTagName("ul")[0];
     var randomInt = parseInt(Math.random() * 1000, 0);
+    var currentDate = new Date().toLocaleDateString();
     var randomDate = (randomInt % 30 + 1) + "." + (randomInt % 12 + 1) +".2017";
-    var tempString = "lorempixel_";
-    var filelist = [tempString + "100x100.jpg", tempString + "100x200.jpg", tempString + "200x100.jpg",
-                    tempString + "250x150.jpg", tempString + "300x300.jpg"];
+    var imgSubUrl = "http://lorempixel.com/";
+    var fileList = ["100/100", "100/200", "200/100", "250/150", "300/300"];
 
-    var jasonItem = { Title: "M" + (ulElement.getElementsByTagName("li").length + 1),
-                      Autor: "lorempixel.com",
-                      Date: randomDate,
-                      src: "./img/" + filelist[randomInt % 5] }
+    var jasonItem = { name: "M" + ++ulElement.childElementCount,
+                      owner: "lorempixel.com",
+                      added: currentDate,
+                      src: imgSubUrl + fileList[randomInt % 5] };
 
     ulElement.appendChild(getNewListItem(jasonItem));
+}
+
+/**
+ * handler refreshed the view with all elements from database
+ *
+ * @param event is click event
+ */
+function refreshButtonHandle(event) {
+    ulElement.innerHTML = "";
+    fillView();
 }
 
 //################################## helper ###############################################
@@ -94,14 +133,26 @@ function getLiElement(elem){
 }
 
 function getNewListItem(item){
-    var ulElement = document.getElementsByTagName("ul")[0];
-    var newListElement = ulElement.firstElementChild.cloneNode(true);
+    var newListElement = liElemTemplate.cloneNode(true);
 
     newListElement.getElementsByClassName("preview")[0].setAttribute("style", "background-image: url('" + item.src + "')");
-    newListElement.getElementsByTagName("h2")[0].textContent = item.Title;
-    newListElement.getElementsByClassName("liElemAutor")[0].textContent = item.Autor;
-    newListElement.getElementsByClassName("liElemDate")[0].textContent = item.Date;
+    newListElement.getElementsByTagName("h2")[0].textContent = item.name;
+    newListElement.getElementsByClassName("liElemAutor")[0].textContent = item.owner;
+    newListElement.getElementsByClassName("liElemDate")[0].textContent = item.added;
     newListElement.getElementsByClassName("liElemCount")[0].textContent = 0;
 
     return newListElement;
+}
+
+/**
+ * fill the view with all elements from database
+ *  
+ */
+function fillView(){
+    xhr("GET", "./data/listitems.json", null, function(xhrobj){
+        var items = JSON.parse(xhrobj.responseText);
+        items.forEach(function(item){
+            ulElement.appendChild(getNewListItem(item));
+        });
+    });
 }
