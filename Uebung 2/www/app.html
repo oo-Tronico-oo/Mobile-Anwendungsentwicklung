@@ -37,20 +37,31 @@
         <div class="mwf-imgbutton mwf-img-plus mwf-right-align" id="addNewMediaItem"></div>
     </header>
     <main class="mwf-scrollview">
-        <ul class="mwf-listview" data-mwf-listitem-view="myapp-listitem">
-            <li class="mwf-listitem mwf-template" data-mwf-templatename="myapp-listitem">
-                <img class="mwf-left-align" src="./content/img/lorempixel_100x100.jpg"/>
+        <ul class="mwf-listview" data-mwf-listitem-view="myapp-listitem" data-mwf-listitem-menu="mediaItemMenu">
+            <li class="mwf-listitem mwf-template mwf-databind" data-mwf-templatename="myapp-listitem">
+                <img class="mwf-left-align" src="{{src}}"/>
                 <div class="mwf-li-titleblock mwf-left-align">
-                    <h2>lorem</h2>
-                    <h3>pblura</h3>
+                    <h2>{{name}}</h2>
+                    <h3>{{added}}</h3>
                 </div>
-                <div class="mwf-imgbutton mwf-img-options-vertical mwf- mwf-right-align"></div>
+                <div class="mwf-listitem-menu-control mwf-imgbutton mwf-img-options-vertical mwf- mwf-right-align"></div>
             </li>
         </ul>
     </main>
     <footer>
         <div class="mwf-imgbutton mwf-img-refresh mwf-right-align"></div>
     </footer>
+</div>
+<div class="mwf-listitem-menu mwf-template mwf-databind mwf-dialog mwf-popup" data-mwf-templatename="mediaItemMenu">
+    <header>
+        <h2 class="mwf-dyncontent">{{name}}</h2>
+    </header>
+    <div class="mwf-dialog-body">
+        <ul>
+            <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="deleteItem">Löschen</li>
+            <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="editItem">Editieren</li>
+        </ul>
+    </div>
 </div>
 
 </body>

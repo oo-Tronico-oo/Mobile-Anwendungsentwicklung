@@ -1,14 +1,14 @@
 /**
  * @author Jörn Kreutel
  */
-define(["mwf", "entities", "GenericCRUDImplLocal"], function (mwf, entities, GenericCRUDImplLocal) {
+define(["mwf", "entities"], function (mwf, entities) {
 
     class ListviewViewController extends mwf.ViewController {
 
         constructor() {
             super();
 
-            this.crudops = GenericCRUDImplLocal.newInstance("MediaItem");
+            //this.crudops = GenericCRUDImplLocal.newInstance("MediaItem");
         }
 
         /*
@@ -22,12 +22,12 @@ define(["mwf", "entities", "GenericCRUDImplLocal"], function (mwf, entities, Gen
                 let name = "M"+ Math.round(Math.random()*10,0);
                 let src = "./content/img/lorempixel_300x300.jpg";
                 var newItem = new entities.MediaItem(name, src);
-                this.crudops.create(newItem, (created) => {
-                    this.addToListview(created);
+                newItem.create(() => {
+                    this.addToListview(newItem);
                 });
             }
 
-            this.crudops.readAll((items) => {
+            entities.MediaItem.readAll((items) => {
                 this.initialiseListview(items);
             });
 
@@ -39,13 +39,11 @@ define(["mwf", "entities", "GenericCRUDImplLocal"], function (mwf, entities, Gen
          * for views with listviews: bind a list item to an item view
          * TODO: delete if no listview is used or if databinding uses ractive templates
          */
-        bindListItemView(viewid, itemview, item) {
-            // TODO: implement how attributes of item shall be displayed in itemview
-
-            itemview.root.getElementsByTagName("img")[0].src = item.src;
-            itemview.root.getElementsByTagName("h2")[0].textContent = item.name;
-            itemview.root.getElementsByTagName("h3")[0].textContent = item.added;
-        }
+         // bindListItemView(viewid, itemview, item) {
+         //     // TODO: implement how attributes of item shall be displayed in itemview
+         //
+         //     super.bindListItemView(viewid, itemview, item);
+         // }
 
         /*
          * for views with listviews: react to the selection of a listitem
@@ -62,6 +60,7 @@ define(["mwf", "entities", "GenericCRUDImplLocal"], function (mwf, entities, Gen
          */
         onListItemMenuItemSelected(option, listitem, listview) {
             // TODO: implement how selection of option for listitem shall be handled
+            super.onListItemMenuItemSelected(option, listitem, listview);
         }
 
         /*
@@ -75,7 +74,18 @@ define(["mwf", "entities", "GenericCRUDImplLocal"], function (mwf, entities, Gen
             // TODO: implement action bindings for dialog, accessing dialog.root
         }
 
+        deleteItem(item){
+            item.delete(() => {
+                this.removeFromListview(item._id);
+            });
+        }
 
+        editItem(item){
+            item.name += "_edit";
+            item.update(() => {
+                this.updateInListview(item._id, item);
+            });
+        }
     }
 
     // and return the view controller function
