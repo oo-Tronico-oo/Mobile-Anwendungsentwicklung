@@ -7,8 +7,7 @@ define(["mwf", "entities"], function (mwf, entities) {
 
         constructor() {
             super();
-
-            //this.crudops = GenericCRUDImplLocal.newInstance("MediaItem");
+            this.resetDatabaseElement = null;
         }
 
         /*
@@ -17,15 +16,15 @@ define(["mwf", "entities"], function (mwf, entities) {
         oncreate(callback) {
             // TODO: do databinding, set listeners, initialise the view
 
+            this.resetDatabaseElement = this.root.querySelector("#resetDatabase");
+            this.resetDatabaseElement.onclick = () => {
+                if(confirm("Soll die Datenbank zurückgesetzt werden?")) {
+                    indexedDB.deleteDatabase("mwftutdb");
+                }
+            };
+
             this.addNewMediaItem = this.root.querySelector("#addNewMediaItem");
-            this.addNewMediaItem.onclick = () => {
-                let name = "M"+ Math.round(Math.random()*10,0);
-                let src = "./content/img/lorempixel_300x300.jpg";
-                var newItem = new entities.MediaItem(name, src);
-                newItem.create(() => {
-                    this.addToListview(newItem);
-                });
-            }
+            this.addNewMediaItem.onclick = () => this.createNewItem();
 
             entities.MediaItem.readAll((items) => {
                 this.initialiseListview(items);
@@ -81,9 +80,39 @@ define(["mwf", "entities"], function (mwf, entities) {
         }
 
         editItem(item){
-            item.name += "_edit";
-            item.update(() => {
-                this.updateInListview(item._id, item);
+            this.showDialog("mediaItemDialog", {
+                item: item,
+                actionBindings:{
+                    submitForm: ((event) => {
+                        event.original.preventDefault();
+                        item.update(() => {
+                            this.updateInListview(item._id, item);
+                        });
+                        this.hideDialog();
+                    }),
+                    deleteItem: ((event) => {
+                        this.deleteItem(item);
+                        this.hideDialog();
+                    })
+                }
+            });
+        }
+
+        createNewItem(){
+            let randomInt = Math.round(Math.random()*100,0)*10;
+            let src = "http://lorempixel.com/"+randomInt+"/"+randomInt+"/";
+            var newItem = new entities.MediaItem("", src);
+            this.showDialog("mediaItemDialog", {
+                item: newItem,
+                actionBindings:{
+                    submitForm: ((event) => {
+                        event.original.preventDefault();
+                        newItem.create(() => {
+                            this.addToListview(newItem);
+                        });
+                        this.hideDialog();
+                    })
+                }
             });
         }
     }

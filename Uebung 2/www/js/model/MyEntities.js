@@ -31,7 +31,7 @@ define(["mwfUtils", "EntityManager"], function (mwfUtils, EntityManager) {
             this.name = name;
             this.src = src;
             this.contentType = contentType;
-            this.added = Date.now();
+            this.added = new Date(Date.now()).toLocaleDateString();
             this.srcType = null;
             this.description = "";
         }
