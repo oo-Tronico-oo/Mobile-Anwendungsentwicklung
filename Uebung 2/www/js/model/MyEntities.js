@@ -21,12 +21,26 @@ define(["mwfUtils", "EntityManager"], function (mwfUtils, EntityManager) {
         }
 
     }
-
+    
     // TODO-REPEATED: add new entity type declarations here
+
+    class MediaItem extends EntityManager.Entity{
+        
+        constructor(name, src, contentType) {
+            super();
+            this.name = name;
+            this.src = src;
+            this.contentType = contentType;
+            this.added = Date.now();
+            this.srcType = null;
+            this.description = "";
+        }
+    }
 
     // TODO-REPEATED: do not forget to export all type declarations
     return {
-        MyEntity: MyEntity
+        MyEntity: MyEntity,
+        MediaItem: MediaItem
     };
 
 });
