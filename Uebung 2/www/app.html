@@ -38,7 +38,7 @@
     </header>
     <main class="mwf-scrollview">
         <ul class="mwf-listview" data-mwf-listitem-view="myapp-listitem" data-mwf-listitem-menu="mediaItemMenu">
-            <li class="mwf-listitem mwf-template mwf-databind" data-mwf-templatename="myapp-listitem" data-mwf-targetview="mediaReadview">
+            <li class="mwf-listitem mwf-template mwf-databind" data-mwf-templatename="myapp-listitem" data-mwf-targetview="mediaReadview"> <!--data-mwf-targetview="mediaReadview">-->
                 <img class="mwf-left-align" src="{{src}}"/>
                 <div class="mwf-li-titleblock mwf-left-align">
                     <h2>{{name}}</h2>
@@ -53,7 +53,7 @@
     </footer>
 </div>
 
-<div class="mwf-view" id="mediaReadview" data-mwf-viewcontroller="ReadviewViewController">
+<!--<div class="mwf-view" id="mediaReadview" data-mwf-viewcontroller="ReadviewViewController">
     <header>
         <div class="mwf-imgbutton mwf-img-sandwich mwf-left-align"></div>
         <h2 class="mwf-left-align">Name</h2>
@@ -61,6 +61,50 @@
     </header>
     <main class="mwf-scrollview">
         <img src="./content/img/lorempixel_300x300.jpg"/>
+    </main>
+    <footer>
+        <div class="mwf-imgbutton mwf-img-backward mwf-left-align mwf-back"></div>
+    </footer>
+</div>-->
+
+<div class="mwf-view" id="mediaReadview" data-mwf-viewcontroller="ReadviewRactiveViewController">
+    <div class="mwf-template mwf-databind" data-mwf-templatename="mediaReadviewTemplate">
+        <header>
+            <div class="mwf-imgbutton mwf-img-sandwich mwf-left-align"></div>
+            <h2 class="mwf-left-align">{{item.name}}</h2>
+            <div class="mwf-imgbutton mwf-img-delete mwf-right-align" on-click="deleteItem"></div>
+        </header>
+        <main class="mwf-scrollview">
+            <img src="{{item.src}}"/>
+        </main>
+        <footer>
+            <div class="mwf-imgbutton mwf-img-backward mwf-left-align mwf-back"></div>
+        </footer>
+    </div>
+</div>
+
+<div class="mwf-view">
+    <header>
+        <div class="mwf-imgbutton mwf-img-sandwich mwf-left-align"></div>
+        <h2>Neues Medium</h2>
+        <input type="submit" class="mwf-imgbutton mwf-img-disk mwf-right-align"/>
+        <div class="mwf-imgbutton mwf-img-delete mwf-right-align"></div>
+    </header>
+    <main>
+        <form>
+            <fieldset>
+                <legend>Bild auswählen</legend>
+                <input type="url" name="src"/>
+            </fieldset>
+            <fieldset>
+                <legend>Titel</legend>
+                <input type="text" name="name"/>
+            </fieldset>
+            <fieldset>
+                <legend>Beschreibung</legend>
+                <textarea name="description"></textarea>
+            </fieldset>
+        </form>
     </main>
     <footer>
         <div class="mwf-imgbutton mwf-img-backward mwf-left-align mwf-back"></div>
@@ -73,7 +117,7 @@
     </header>
     <div class="mwf-dialog-body">
         <ul>
-            <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="deleteItem">Löschen</li>
+            <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="openDeleteItemDialog">Löschen</li>
             <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="editItem">Editieren</li>
         </ul>
     </div>
@@ -91,5 +135,17 @@
         </form>
     </div>
 </div>
+
+<div class="mwf-dialog mwf-popup mwf-template mwf-databind mwf-view-component" data-mwf-viewcontroller="GenericDialogTemplateViewController" data-mwf-templatename="mediaItemDeleteDialog">
+    <div class="mwf-dialog-body">
+        <h2>Medium löschen</h2>
+        <p>Möchten Sie das Medium {{item.name}} löschen?</p>
+        <div class="mwf-buttonbar">
+            <button class="mwf-button mwf-left-align" type="button" on-click="backLastView">Abbrechen</button>
+            <button class="mwf-button mwf-button-prio mwf-right-align" type="button" on-click="deleteItem">Löschen</button>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

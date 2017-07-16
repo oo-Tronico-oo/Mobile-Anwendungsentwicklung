@@ -30,6 +30,18 @@ define(["mwf", "entities"], function (mwf, entities) {
                 this.initialiseListview(items);
             });
 
+            this.addListener(new mwf.EventMatcher("crud","created","MediaItem"),((event) => {
+            this.addToListview(event.data);
+            }));
+
+            this.addListener(new mwf.EventMatcher("crud","updated","MediaItem"),((event) => {
+            this.updateInListview(event.data._id,event.data);
+            }));
+
+            this.addListener(new mwf.EventMatcher("crud","deleted","MediaItem"),((event) => {
+                    this.removeFromListview(event.data);
+            }));
+
             // call the superclass once creation is done
             super.oncreate(callback);
         }
@@ -48,11 +60,11 @@ define(["mwf", "entities"], function (mwf, entities) {
          * for views with listviews: react to the selection of a listitem
          * TODO: delete if no listview is used or if item selection is specified by targetview/targetaction
          */
-        // onListItemSelected(listitem, listview) {
+        //onListItemSelected(listitem, listview) {
         //     // TODO: implement how selection of listitem shall be handled
         //     //alert("item " + listitem.name + " wurde ausgewählt!");
         //     this.nextView("mediaReadview", {item : listitem});
-        // }
+        //}
 
         /*
          * for views with listviews: react to the selection of a listitem menu option
@@ -73,11 +85,27 @@ define(["mwf", "entities"], function (mwf, entities) {
 
             // TODO: implement action bindings for dialog, accessing dialog.root
         }
+        
+        openDeleteItemDialog(item){
+            this.showDialog("mediaItemDeleteDialog", {
+                item: item,
+                actionBindings:{
+                    backLastView: (() => {
+                        this.hideDialog();
+                    }),
+                    deleteItem: ((event) => {
+                        console.log("testtttttttttttttttttt");
+                        this.deleteItem(item);
+                        this.hideDialog();
+                    })
+                }
+            });
+        }
 
         deleteItem(item){
-            item.delete(() => {
-                this.removeFromListview(item._id);
-            });
+            item.delete(); //() => {
+            //     this.removeFromListview(item._id);
+            // });
         }
 
         editItem(item){
@@ -86,14 +114,15 @@ define(["mwf", "entities"], function (mwf, entities) {
                 actionBindings:{
                     submitForm: ((event) => {
                         event.original.preventDefault();
-                        item.update(() => {
-                            this.updateInListview(item._id, item);
-                        });
+                        item.update(); //() => {
+                        //    this.updateInListview(item._id, item);
+                        //});
                         this.hideDialog();
                     }),
                     deleteItem: ((event) => {
-                        this.deleteItem(item);
-                        this.hideDialog();
+                        this.openDeleteItemDialog(item)
+                        // this.deleteItem(item);
+                        // this.hideDialog();
                     })
                 }
             });
@@ -108,9 +137,9 @@ define(["mwf", "entities"], function (mwf, entities) {
                 actionBindings:{
                     submitForm: ((event) => {
                         event.original.preventDefault();
-                        newItem.create(() => {
-                            this.addToListview(newItem);
-                        });
+                        newItem.create(); //() => {
+                        //    this.addToListview(newItem);
+                        // });
                         this.hideDialog();
                     })
                 }
