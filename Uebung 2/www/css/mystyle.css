@@ -2,3 +2,7 @@
 li .mwf-img-options-vertical{
     margin-top: 5px;
 }
+
+#mediaReadview img {
+    width: 100%;
+}

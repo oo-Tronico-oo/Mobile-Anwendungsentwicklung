@@ -38,7 +38,7 @@
     </header>
     <main class="mwf-scrollview">
         <ul class="mwf-listview" data-mwf-listitem-view="myapp-listitem" data-mwf-listitem-menu="mediaItemMenu">
-            <li class="mwf-listitem mwf-template mwf-databind" data-mwf-templatename="myapp-listitem">
+            <li class="mwf-listitem mwf-template mwf-databind" data-mwf-templatename="myapp-listitem" data-mwf-targetview="mediaReadview">
                 <img class="mwf-left-align" src="{{src}}"/>
                 <div class="mwf-li-titleblock mwf-left-align">
                     <h2>{{name}}</h2>
@@ -52,6 +52,21 @@
         <div class="mwf-imgbutton mwf-img-refresh mwf-right-align"></div>
     </footer>
 </div>
+
+<div class="mwf-view" id="mediaReadview" data-mwf-viewcontroller="ReadviewViewController">
+    <header>
+        <div class="mwf-imgbutton mwf-img-sandwich mwf-left-align"></div>
+        <h2 class="mwf-left-align">Name</h2>
+        <div class="mwf-imgbutton mwf-img-delete mwf-right-align"></div>
+    </header>
+    <main class="mwf-scrollview">
+        <img src="./content/img/lorempixel_300x300.jpg"/>
+    </main>
+    <footer>
+        <div class="mwf-imgbutton mwf-img-backward mwf-left-align mwf-back"></div>
+    </footer>
+</div>
+
 <div class="mwf-listitem-menu mwf-template mwf-databind mwf-dialog mwf-popup" data-mwf-templatename="mediaItemMenu">
     <header>
         <h2 class="mwf-dyncontent">{{name}}</h2>
@@ -63,6 +78,7 @@
         </ul>
     </div>
 </div>
+
 <div class="mwf-dialog mwf-popup mwf-template mwf-databind mwf-view-component" data-mwf-viewcontroller="GenericDialogTemplateViewController" data-mwf-templatename="mediaItemDialog">
     <div class="mwf-dialog-body">
         <h2>{{#if item.created}}Medium editieren{{else}}Neues Medium{{/if}}</h2>
@@ -75,6 +91,5 @@
         </form>
     </div>
 </div>
-
 </body>
 </html>

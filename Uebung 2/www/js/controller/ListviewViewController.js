@@ -48,10 +48,11 @@ define(["mwf", "entities"], function (mwf, entities) {
          * for views with listviews: react to the selection of a listitem
          * TODO: delete if no listview is used or if item selection is specified by targetview/targetaction
          */
-        onListItemSelected(listitem, listview) {
-            // TODO: implement how selection of listitem shall be handled
-            alert("item " + listitem.name + " wurde ausgewählt!");
-        }
+        // onListItemSelected(listitem, listview) {
+        //     // TODO: implement how selection of listitem shall be handled
+        //     //alert("item " + listitem.name + " wurde ausgewählt!");
+        //     this.nextView("mediaReadview", {item : listitem});
+        // }
 
         /*
          * for views with listviews: react to the selection of a listitem menu option
@@ -114,6 +115,14 @@ define(["mwf", "entities"], function (mwf, entities) {
                     })
                 }
             });
+        }
+
+        onReturnFromSubview(subviewid, returnValue, returnStatus, callback) {
+
+            if(subviewid == "mediaReadview" && returnValue && returnValue.deletedItem){
+                this.removeFromListview(returnValue.deletedItem._id);
+            }
+            callback();
         }
     }
 
