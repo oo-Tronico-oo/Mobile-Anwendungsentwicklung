@@ -20,12 +20,23 @@ define(["mwf", "entities"], function (mwf, entities) {
 
             var mediaItem = this.args.item; //new entities.MediaItem("dummy item", "./content/img/lorempixel_200x100.jpg");
             this.viewProxy = this.bindElement("mediaReadviewTemplate", {item: mediaItem}, this.root).viewProxy;
+
             this.viewProxy.bindAction("deleteItem",(() => {
                 mediaItem.delete(() => {
-                    //this.previousView({deletedItem: mediaItem});
-                    this.notifyListeners(new mwf.Event("crud","deleted","MediaItem",mediaItem._id));
                     this.previousView();
-                })
+                })}
+            ));
+            this.viewProxy.bindAction("showMediaEditview", (() => {
+                    this.nextView("mediaEditview", {item: mediaItem});
+                }
+            ));
+
+            this.addListener(new mwf.EventMatcher("crud","deleted","MediaItem"),((event) => {
+            this.markAsObsolete();
+            }),true);
+
+            this.addListener(new mwf.EventMatcher("crud","updated","MediaItem"),((event) => {
+                this.viewProxy.update({item: event.data});
             }));
 
             // call the superclass once creation is done
@@ -66,8 +77,6 @@ define(["mwf", "entities"], function (mwf, entities) {
 
             // TODO: implement action bindings for dialog, accessing dialog.root
         }
-
-
     }
 
     // and return the view controller function

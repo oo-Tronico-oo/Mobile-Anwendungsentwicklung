@@ -28,7 +28,7 @@
 <body data-mwf-application="MyApplication">
 
 <!-- TODO-REPEATED: add new views here -->
-<div class="mwf-view mwf-view-initial" data-mwf-viewcontroller="ListviewViewController">
+<div class="mwf-view mwf-view-initial" id="initView" data-mwf-viewcontroller="ListviewViewController">
     <header>
         <div class="mwf-imgbutton mwf-img-sandwich mwf-left-align" id="resetDatabase"></div>
         <h2 class="mwf-left-align">
@@ -38,7 +38,7 @@
     </header>
     <main class="mwf-scrollview">
         <ul class="mwf-listview" data-mwf-listitem-view="myapp-listitem" data-mwf-listitem-menu="mediaItemMenu">
-            <li class="mwf-listitem mwf-template mwf-databind" data-mwf-templatename="myapp-listitem" data-mwf-targetview="mediaReadview"> <!--data-mwf-targetview="mediaReadview">-->
+            <li class="mwf-listitem mwf-template mwf-databind" data-mwf-templatename="myapp-listitem" data-mwf-targetview="mediaReadview">
                 <img class="mwf-left-align" src="{{src}}"/>
                 <div class="mwf-li-titleblock mwf-left-align">
                     <h2>{{name}}</h2>
@@ -49,6 +49,7 @@
         </ul>
     </main>
     <footer>
+        <label class="mwf-left-align">local</label>
         <div class="mwf-imgbutton mwf-img-refresh mwf-right-align"></div>
     </footer>
 </div>
@@ -72,10 +73,12 @@
         <header>
             <div class="mwf-imgbutton mwf-img-sandwich mwf-left-align"></div>
             <h2 class="mwf-left-align">{{item.name}}</h2>
+            <button class="mwf-imgbutton mwf-img-pencil mwf-right-align" type="button" on-click="showMediaEditview"></button>
             <div class="mwf-imgbutton mwf-img-delete mwf-right-align" on-click="deleteItem"></div>
         </header>
         <main class="mwf-scrollview">
             <img src="{{item.src}}"/>
+            <div class="readviewDescription">{{item.description}}</div>
         </main>
         <footer>
             <div class="mwf-imgbutton mwf-img-backward mwf-left-align mwf-back"></div>
@@ -83,32 +86,42 @@
     </div>
 </div>
 
-<div class="mwf-view">
-    <header>
-        <div class="mwf-imgbutton mwf-img-sandwich mwf-left-align"></div>
-        <h2>Neues Medium</h2>
-        <input type="submit" class="mwf-imgbutton mwf-img-disk mwf-right-align"/>
-        <div class="mwf-imgbutton mwf-img-delete mwf-right-align"></div>
-    </header>
-    <main>
-        <form>
-            <fieldset>
-                <legend>Bild auswählen</legend>
-                <input type="url" name="src"/>
-            </fieldset>
-            <fieldset>
-                <legend>Titel</legend>
-                <input type="text" name="name"/>
-            </fieldset>
-            <fieldset>
-                <legend>Beschreibung</legend>
-                <textarea name="description"></textarea>
-            </fieldset>
-        </form>
-    </main>
-    <footer>
-        <div class="mwf-imgbutton mwf-img-backward mwf-left-align mwf-back"></div>
-    </footer>
+<div class="mwf-view" id="mediaEditview" data-mwf-viewcontroller="EditviewViewController">
+    <div class="mwf-template mwf-databind " data-mwf-templatename="editviewTemplate">
+        <header>
+            <div class="mwf-imgbutton mwf-img-sandwich mwf-left-align"></div>
+            <h2>{{#if item.created}}{{item.name}}{{else}}Neues Medium{{/if}}</h2>
+            <input type="submit" form="editForm" class="mwf-imgbutton mwf-img-disk mwf-right-align"/>
+            <button class="mwf-imgbutton mwf-img-delete mwf-right-align" type="button" on-click="deleteItem" disabled="{{#unless item.created}}disabled{{/unless}}"></button>
+        </header>
+        <main class="mwf-scrollview">
+            <form id="editForm" on-submit="submitForm">
+                <fieldset>
+                    <legend>Bild auswählen</legend>
+                    <fieldset class="mwf-radiogroup">
+                        <input type="radio" id="urlRadio" name="{{item.srcType}}" value="url"/>
+                        <label for="urlRadio">URL</label>
+                        <input type="radio" id="uploadRadio" name="{{item.srcType}}" value="upload"/>
+                        <label for="uploadRadio">Upload</label>
+                    </fieldset>
+                    <input type="text" id="urlField" name="src" value="{{item.src}}" required="{{item.srcType != 'upload'}}" hidden="{{item.srcType == 'upload'}}"/>
+                    <input type="file" name="srcfile" required="{{item.srcType == 'upload'}}" hidden="{{item.srcType != 'upload'}}"/>
+                </fieldset>
+                <img src="{{#unless !item.created}}{{item.src}}{{/unless}}"/>
+                <fieldset>
+                    <legend>Titel</legend>
+                    <input type="text" name="name" value="{{item.name}}" required="required"/>
+                </fieldset>
+                <fieldset>
+                    <legend>Beschreibung</legend>
+                    <textarea type="text" name="description" value="{{item.description}}"></textarea>
+                </fieldset>
+            </form>
+        </main>
+        <footer>
+            <div class="mwf-imgbutton mwf-img-backward mwf-left-align mwf-back"></div>
+        </footer>
+    </div>
 </div>
 
 <div class="mwf-listitem-menu mwf-template mwf-databind mwf-dialog mwf-popup" data-mwf-templatename="mediaItemMenu">
@@ -129,7 +142,7 @@
         <form id="itemEditForm" on-submit="submitForm">
             <input name="name" autocomplete="off" class="mwf-autofocus" type="text" placeholder="Name" required="required" value="{{item.name}}"/>
             <div class="mwf-buttonbar">
-                <button class="mwf-left-align mwf-button" disabled="{{#unless item.created}}disabled{{/unless}}" type="button" on-click="deleteItem">Löschen</button>
+                <button class="mwf-left-align mwf-button" type="button" on-click="deleteItem" disabled="{{#unless item.created}}disabled{{/unless}}">Löschen</button>
                 <input class="mwf-button-prio mwf-right-align mwf-button" type="submit" value="{{#if item.created}}Ändern{{else}}Hinzufügen{{/if}}"/>
             </div>
         </form>

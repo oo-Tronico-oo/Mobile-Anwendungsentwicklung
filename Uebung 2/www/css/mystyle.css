@@ -6,3 +6,17 @@ li .mwf-img-options-vertical{
 #mediaReadview img {
     width: 100%;
 }
+
+#mediaEditview form img{
+    width: 50%;
+}
+
+footer label{
+    margin-left: 10px;
+    line-height: 40px;
+}
+
+.readviewDescription{
+    margin: 5px;
+    font-size: 10pt;
+}

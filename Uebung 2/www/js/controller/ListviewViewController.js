@@ -21,11 +21,28 @@ define(["mwf", "entities"], function (mwf, entities) {
                 if(confirm("Soll die Datenbank zurückgesetzt werden?")) {
                     indexedDB.deleteDatabase("mwftutdb");
                 }
+                // this.createNewItem();
             };
-
+            
             this.addNewMediaItem = this.root.querySelector("#addNewMediaItem");
-            this.addNewMediaItem.onclick = () => this.createNewItem();
+            this.addNewMediaItem.onclick = () => this.addNewMediaItemAction();
 
+            this.switchCRUDElement = this.root.querySelector(".mwf-img-refresh");
+            this.switchCRUDElement.onclick = () => {
+                if(this.application.currentCRUDScope == "local"){
+                    this.application.switchCRUD("remote");
+                    this.root.querySelector("label").textContent = "remote";
+                }
+                else{
+                    this.application.switchCRUD("local");
+                    this.root.querySelector("label").textContent = "local";
+
+                }
+                entities.MediaItem.readAll((items) => {
+                    this.initialiseListview(items);
+                });
+            };
+            
             entities.MediaItem.readAll((items) => {
                 this.initialiseListview(items);
             });
@@ -39,8 +56,8 @@ define(["mwf", "entities"], function (mwf, entities) {
             }));
 
             this.addListener(new mwf.EventMatcher("crud","deleted","MediaItem"),((event) => {
-                    this.removeFromListview(event.data);
-            }));
+                this.removeFromListview(event.data);
+            }),true);
 
             // call the superclass once creation is done
             super.oncreate(callback);
@@ -94,7 +111,6 @@ define(["mwf", "entities"], function (mwf, entities) {
                         this.hideDialog();
                     }),
                     deleteItem: ((event) => {
-                        console.log("testtttttttttttttttttt");
                         this.deleteItem(item);
                         this.hideDialog();
                     })
@@ -120,18 +136,19 @@ define(["mwf", "entities"], function (mwf, entities) {
                         this.hideDialog();
                     }),
                     deleteItem: ((event) => {
-                        this.openDeleteItemDialog(item)
-                        // this.deleteItem(item);
-                        // this.hideDialog();
+                        //this.openDeleteItemDialog(item)
+                         this.deleteItem(item);
+                         this.hideDialog();
                     })
                 }
             });
         }
 
         createNewItem(){
-            let randomInt = Math.round(Math.random()*100,0)*10;
+            let randomInt = Math.round(Math.random() * 100, 0)*10;
             let src = "http://lorempixel.com/"+randomInt+"/"+randomInt+"/";
-            var newItem = new entities.MediaItem("", src);
+            var newItem = new entities.MediaItem("M" + randomInt, src);
+            newItem.description = "lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmodi tempor incididunt ut labore et dolore magna aliqua";
             this.showDialog("mediaItemDialog", {
                 item: newItem,
                 actionBindings:{
@@ -146,12 +163,28 @@ define(["mwf", "entities"], function (mwf, entities) {
             });
         }
 
-        onReturnFromSubview(subviewid, returnValue, returnStatus, callback) {
+        // onReturnFromSubview(subviewid, returnValue, returnStatus, callback) {
+        //
+        //     if((subviewid == "mediaReadview" || subviewid == "mediaEditview") && returnValue) {
+        //         if (returnValue.deletedItem) {
+        //             this.removeFromListview(returnValue.deletedItem._id);
+        //         }
+        //         else if (returnValue.updatedItem) {
+        //             this.updateInListview(returnValue.updatedItem._id, returnValue.updatedItem);
+        //         }else if(returnValue.createdItem) {
+        //             this.addToListview(returnValue.createdItem);
+        //         }
+        //     }
+        //
+        //     callback();
+        // }
 
-            if(subviewid == "mediaReadview" && returnValue && returnValue.deletedItem){
-                this.removeFromListview(returnValue.deletedItem._id);
-            }
-            callback();
+        addNewMediaItemAction(){
+            // let randomInt = Math.round(Math.random()*100,0)*10;
+            // let src = "http://lorempixel.com/"+randomInt+"/"+randomInt+"/";
+            // var newItem = new entities.MediaItem("M"+ randomInt, src);
+            // newItem.create();
+            this.nextView("mediaEditview", {});
         }
     }
 
