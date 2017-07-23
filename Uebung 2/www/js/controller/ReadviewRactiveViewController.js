@@ -77,6 +77,14 @@ define(["mwf", "entities"], function (mwf, entities) {
 
             // TODO: implement action bindings for dialog, accessing dialog.root
         }
+
+        onback(){
+            var videoElem = this.root.querySelector("video");
+            if(videoElem){
+                videoElem.pause();
+            }
+            super.onback();
+        }
     }
 
     // and return the view controller function

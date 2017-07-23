@@ -35,6 +35,24 @@ define(["mwfUtils", "EntityManager"], function (mwfUtils, EntityManager) {
             this.srcType = null;
             this.description = "";
         }
+
+        get addedDateString() {
+            return (new Date(this.added)).toLocaleDateString();
+        }
+        get mediaType() {
+            if (this.contentType) {
+                var index = this.contentType.indexOf("/");
+                if (index > -1) {
+                    return this.contentType.substring(0,index);
+                }
+                else {
+                    return "UNKNOWN";
+                }
+            }
+            else {
+                return "UNKNOWN";
+            }
+        }
     }
 
     // TODO-REPEATED: do not forget to export all type declarations

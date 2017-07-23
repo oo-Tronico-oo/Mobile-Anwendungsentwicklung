@@ -3,12 +3,28 @@ li .mwf-img-options-vertical{
     margin-top: 5px;
 }
 
-#mediaReadview img {
+#mediaReadview img, #mediaReadview video {
     width: 100%;
 }
 
-#mediaEditview form img{
+#mediaEditview form img, #mediaEditview form video{
     width: 50%;
+    margin-left: 2px;
+    margin-top: 10px;
+}
+
+li .mwf-img-play-button{
+    margin: 15px 0 0 -5px;
+    position: static;
+    -webkit-filter: invert(80%);
+    filter: invert(80%);
+}
+
+li img,li video {
+    width: 50px;
+    max-height: 50px;
+    margin: 0px;
+    padding: 0px;
 }
 
 footer label{
